@@ -4,6 +4,8 @@
 
 .idea/
 *.sqlite3
+prismapp/migrations/
+
 __pycache__/
 *.py[cod]
 *$py.class
@@ -120,6 +122,12 @@ venv.bak/
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+
+
+#replace
+static/semantic_ui/
+static/jquery/
+
 
 
 

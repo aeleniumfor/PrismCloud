@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <div class="ui sidebar left fixed vertical menu">
+        <div class="item">
+            <img class="ui mini image" src="{% static 'image/test.png' %}">
+        </div>
+        <a class="item" href="{% url 'stella:index' %}" >Chat</a>
+        <a class="item" href="{% url 'stella:wiki' %}">Wiki</a>
+        <a class="item">Sign-in</a>
+    </div>
+
+
+    <div class="ui fixed menu">
+        <div class="header item">
+            Our Company
+        </div>
+        <a id="js-sidebar" class="item">
+            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+        </a>
+        <a class="item">
+            Jobs
+        </a>
+        <a class="item">
+            Locations
+        </a>
+        <div class="right menu">
+            <a class="item">
+                <img src="{% static 'image/test.png' %}">
+            </a>
+        </div>
+    </div>
+
+    {% block menu_body %}
+{#        独自のデザインを適用#}
+    {% endblock menu_body %}
+
+
+
+    <script>
+
+        //semantic-ui処理
+        $('#js-sidebar').click(function () {
+            $('.ui.sidebar').sidebar('toggle');
+        });
+
+    </script>
+{% endblock body %}

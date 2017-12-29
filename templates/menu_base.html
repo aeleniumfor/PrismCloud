@@ -5,9 +5,11 @@
         <div class="item">
             <img class="ui mini image" src="{% static 'image/test.png' %}">
         </div>
-        <a class="item" href="{% url 'stella:index' %}" >Chat</a>
-        <a class="item" href="{% url 'stella:wiki' %}">Wiki</a>
+        <a class="item" href="#">Chat</a>
+        <a class="item" href="#">Wiki</a>
         <a class="item">Sign-in</a>
+        <div class="pusher">
+        </div>
     </div>
 
 
@@ -32,17 +34,14 @@
     </div>
 
     {% block menu_body %}
-{#        独自のデザインを適用#}
+        {#        独自のデザインを適用#}
     {% endblock menu_body %}
 
 
 
     <script>
-
-        //semantic-ui処理
         $('#js-sidebar').click(function () {
             $('.ui.sidebar').sidebar('toggle');
         });
-
     </script>
 {% endblock body %}

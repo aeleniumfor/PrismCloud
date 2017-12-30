@@ -5,6 +5,7 @@
 .idea/
 *.sqlite3
 prismapp/migrations/
+conf.py
 
 __pycache__/
 *.py[cod]

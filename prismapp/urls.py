@@ -7,4 +7,5 @@ from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^drive/$', views.drive, name='drive'),
+    url(r'^front/$', views.test, name='test'),
 ]

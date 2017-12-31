@@ -2,10 +2,7 @@
 ### Python template
 # Byte-compiled / optimized / DLL files
 
-.idea/
-*.sqlite3
-prismapp/migrations/
-conf.py
+
 
 __pycache__/
 *.py[cod]
@@ -126,8 +123,13 @@ pip-selfcheck.json
 
 
 #replace
-static/semantic_ui/
-static/jquery/
+.idea/
+*.sqlite3
+prismapp/migrations/
+conf.py
+
+static/foundation/*
+static/jquery/*
 
 
 

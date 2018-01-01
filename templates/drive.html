@@ -1,5 +1,22 @@
-{% extends 'menu_base.html' %}
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% block menu_body %}
+{% block body %}
+    <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+        <!-- Your menu or Off-canvas content goes here -->
 
+        <ul class="menu vertical">
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </div>
+    <div class="off-canvas-content" data-off-canvas-content>
+
+        <button type="button" class="button" data-toggle="offCanvas"><i class="fi-list-thumbnails size-72"></i></button>
+    </div>
 {% endblock %}

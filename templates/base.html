@@ -9,18 +9,24 @@
     {#ブラウザの初期化#}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" rel="stylesheet">
     {# フォントオーサム 後で消すかも#}
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
+    <link href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet">
+    <link href="{% static 'foundation/foundation-icons/foundation-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'font_size.css' %}" rel="stylesheet">
 
-    <link href="{% static 'semantic_ui/dist/semantic.min.css' %}" rel="stylesheet">
 </head>
-
 <body>
-<script src="{% static 'jquery/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'semantic_ui/dist/semantic.min.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+
 {% block body %}
+
+
 {% endblock %}
+
+<script src="{% static 'foundation/js/vendor/jquery.js' %}"></script>
+<script src="{% static 'foundation/js/vendor/foundation.min.js' %}"></script>
+<script>
+    $(document).foundation();
+</script>
 </body>
 </html>

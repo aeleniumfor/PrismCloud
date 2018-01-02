@@ -130,6 +130,8 @@ conf.py
 
 static/foundation/*
 static/jquery/*
+static/MEDIA/*
+static/semanticui/*
 
 
 

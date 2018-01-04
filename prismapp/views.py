@@ -21,7 +21,7 @@ def registration(request):
     d = {
         'form': form,
     }
-    return render(request, "auth/registration.html",d)
+    return render(request, "auth/registration.html", d)
 
 
 def test(request):

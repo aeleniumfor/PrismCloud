@@ -127,4 +127,4 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/drive/'
+LOGIN_REDIRECT_URL = '/prism/drive/'

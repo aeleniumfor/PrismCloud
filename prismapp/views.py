@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 # ドライブ
 @login_required
 def drive(request):
+    print(request.method)
     user = request.user
     form = forms.MyForm()
     d = {

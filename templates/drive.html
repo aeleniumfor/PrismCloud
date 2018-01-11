@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block title %}
+    {{ title }}
+{% endblock %}
 {% block body %}
     {{ user }}
+
+    <!--サイドメニュー-->
     <div class="ui left vertical inverted labeled icon sidebar menu">
         <a class="item">
             <i class="home icon"></i>
@@ -28,19 +33,23 @@
             Discussions
         </a>
         <a class="item">
-            <i class="trophy icon"></i>
-            Achievements
-        </a>
-        <a class="item">
-            <i class="shop icon"></i>
-            Store
-        </a>
-        <a class="item">
             <i class="settings icon"></i>
             Settings
         </a>
     </div>
-    <button id="sidbar">coco</button>
+
+
+    <div class="ui fixed menu">
+        <div class="menu">
+            <div id="sidbar" class="item"><i class="icon large grey content"></i></div>
+        </div>
+    </div>
+
+    <!--ここから本文-->
+
+    <!--ここまで本文-->
+
+
     <script>
         $('#sidbar').click(function () {
             $('.left').sidebar('toggle');

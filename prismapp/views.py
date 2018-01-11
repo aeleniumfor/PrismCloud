@@ -11,6 +11,7 @@ def drive(request):
     user = request.user
     form = forms.MyForm()
     d = {
+        "title": "drive",
         'form': form,
         'user': user
     }
@@ -24,6 +25,7 @@ def registration(request):
         form.save()
         return redirect('prism:login')
     d = {
+        "title": "registration",
         'form': form,
     }
     return render(request, "auth/registration.html", d)

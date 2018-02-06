@@ -7,6 +7,7 @@ from . import models
 from django.contrib.auth.decorators import login_required
 
 import os, sys
+from O_lib import maker
 
 UPLOADE_DIR = settings.MEDIA_ROOT
 
@@ -16,13 +17,16 @@ UPLOADE_DIR = settings.MEDIA_ROOT
 def drive(request):
     if request.method == 'POST':
         file = request.FILES["file"]
-        path = os.path.join(UPLOADE_DIR,file.name)
+        original_file_name = file.name
+        file.name = maker.make_uuid(file_name=file.name)
+        print(file.name)
+        path = os.path.join(UPLOADE_DIR, file.name)
         destination = open(path, "wb")
 
         for chunk in file.chunks():
             destination.write(chunk)
 
-        insert_data = models.UploadFileModel(file_name = file.name)
+        insert_data = models.UploadFileModel(re_file_name=file.name, ori_file_name=original_file_name)
         insert_data.save()
 
         return redirect("prism:drive")

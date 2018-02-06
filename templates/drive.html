@@ -13,6 +13,10 @@
             {{ form.file }}
             <input type="submit">
         </form>
+    {% for i in view_file %}
+        {{ i.id }}<br>
+        {{ i.ori_file_name }}<br>
+    {% endfor %}
 
     </div>
 

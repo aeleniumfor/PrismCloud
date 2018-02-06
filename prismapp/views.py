@@ -15,11 +15,15 @@ UPLOADE_DIR = settings.MEDIA_ROOT
 # ドライブ
 @login_required
 def drive(request):
-    if request.method == 'POST':
-        file = request.FILES["file"]
-        original_file_name = file.name
+    # リクエストがポストでファイルが送信されているかどうか
+    if request.method == 'POST' and request.FILES != {}:
+
+        file = request.FILES["file"]  # リクエストファイルを取得しておく
+        original_file_name = file.name  # get filename
+
+        # ファイルネームをmake_uuid関数で新しいファイルネームを作成する
         file.name = maker.make_uuid(file_name=file.name)
-        print(file.name)
+
         path = os.path.join(UPLOADE_DIR, file.name)
         destination = open(path, "wb")
 
@@ -31,11 +35,15 @@ def drive(request):
 
         return redirect("prism:drive")
 
-    else:
+    else:  # POST通信以外はこっち
         form = forms.UploadFileForm()
+        view_file = models.UploadFileModel.objects.all()  # ファイル一覧をとってくる
+        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__()} for i in view_file]
+
         d = {
             "title": "drive",
             'form': form,
+            'view_file': view_file
         }
         return render(request, 'drive.html', d)  # 登録
 

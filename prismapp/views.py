@@ -24,8 +24,8 @@ def drive(request):
         # ファイルネームをmake_uuid関数で新しいファイルネームを作成する
         file.name = maker.make_uuid(file_name=file.name)
 
-        path = os.path.join(UPLOADE_DIR, file.name)
-        destination = open(path, "wb")
+        path = os.path.join(UPLOADE_DIR, file.name)  # ファイル保存パスを設定
+        destination = open(path, "wb")  # ファイル保存
 
         for chunk in file.chunks():
             destination.write(chunk)
@@ -38,7 +38,8 @@ def drive(request):
     else:  # POST通信以外はこっち
         form = forms.UploadFileForm()
         view_file = models.UploadFileModel.objects.all()  # ファイル一覧をとってくる
-        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__()} for i in view_file]
+        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp} for i in
+                     view_file]
 
         d = {
             "title": "drive",

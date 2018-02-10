@@ -10,7 +10,6 @@ login_tmp = {
     "login": "auth/login.html",
 }
 
-
 urlpatterns = [
     url(r'^drive/$', views.drive, name='drive'),
     url(r'^test/$', views.test, name='test'),

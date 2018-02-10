@@ -9,29 +9,32 @@ from django.contrib.auth.decorators import login_required
 import os, sys
 from O_lib import maker
 
-UPLOADE_DIR = settings.MEDIA_ROOT
-
 
 # ドライブ
 @login_required
 def drive(request):
     # リクエストがポストでファイルが送信されているかどうか
     if request.method == 'POST' and request.FILES != {}:
+        form = forms.UploadFileForm(data = request.POST, files = request.FILES)
 
-        file = request.FILES["file"]  # リクエストファイルを取得しておく
-        original_file_name = file.name  # get filename
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
 
-        # ファイルネームをmake_uuid関数で新しいファイルネームを作成する
-        file.name = maker.make_uuid(file_name=file.name)
-
-        path = os.path.join(UPLOADE_DIR, file.name)  # ファイル保存パスを設定
-        destination = open(path, "wb")  # ファイル保存
-
-        for chunk in file.chunks():
-            destination.write(chunk)
-
-        insert_data = models.UploadFileModel(re_file_name=file.name, ori_file_name=original_file_name)
-        insert_data.save()
+        # file = request.FILES["file"]  # リクエストファイルを取得しておく
+        # original_file_name = file.name  # get filename
+        #
+        # # ファイルネームをmake_uuid関数で新しいファイルネームを作成する
+        # file.name = maker.make_uuid(file_name=file.name)
+        #
+        # path = os.path.join(UPLOADE_DIR, file.name)  # ファイル保存パスを設定
+        # destination = open(path, "wb")  # ファイル保存
+        #
+        # for chunk in file.chunks():
+        #     destination.write(chunk)
+        #
+        # insert_data = models.UploadFileModel(re_file_name=file.name, ori_file_name=original_file_name)
+        # insert_data.save()
 
         return redirect("prism:drive")
 
@@ -62,4 +65,5 @@ def registration(request):
 
 
 def test(request):
+    form = forms.UploadFileForm(request.POST or None)
     return render(request, "front_test.html")

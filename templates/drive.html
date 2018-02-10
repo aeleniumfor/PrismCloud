@@ -10,7 +10,7 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.title }}
-            {{ form.file }}
+            {{ form }}
             <input type="submit">
         </form>
 
@@ -21,7 +21,9 @@
                 <div class="card">
                     <div class="content">
                         <div class="header">{{ i.ori_file_name }}</div>
-                        <div class="meta">{{ i.ori_file_name }}</div>
+                        <div class="meta">
+                            <i class="file text outline icon"></i>
+                        </div>
                         <div class="description">{{ i.time_stamp }}</div>
                     </div>
                 </div>

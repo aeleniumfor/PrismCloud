@@ -125,7 +125,8 @@ STATICFILES_DIRS = (
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/prism/drive/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
+MEDIA_URL = "/MEDIA/"
+
+LOGIN_URL = '/prism/login/'
+LOGIN_REDIRECT_URL = '/prism/drive/'

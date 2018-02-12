@@ -10,6 +10,7 @@ function handleFileSelect(evt) {
 
     for (var i = 0; i < files.length; i++) {
         console.log(files[i].name);
+        FileUpload();
         document.getElementById('output').innerHTML += files[i].name + '(' + files[i].size + ') '
             + files[i].lastModifiedDate.toLocaleDateString() + files[i].lastModifiedDate.toLocaleTimeString() + ' - ' + files[i].type + '<br/>';
     }
@@ -26,6 +27,23 @@ function PageLoad(evt) {
     dropFrame.addEventListener('dragover', handleDragOver, false);
     dropFrame.addEventListener('drop', handleFileSelect, false);
 }
+
+
+function FileUpload(file, url) {
+    var formData = new FormData();
+    formData.append('file', file);
+    console.log(formData);
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            // メッセージ出したり、DOM構築したり。
+        }
+    });
+}
+
 
 $(function () {
 

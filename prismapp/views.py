@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect, Http404
+from django.http.response import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from . import forms
@@ -60,7 +61,8 @@ def drive(request):
         }
         return render(request, 'drive.html', d)  # 登録
 
-#ajaxでのファイル送信
+
+# ajaxでのファイル送信
 @login_required
 def drive_file_upload(request):
     if request.method == 'POST' and request.FILES != {}:
@@ -78,12 +80,17 @@ def drive_file_upload(request):
             form.cleaned_data["re_file_name"] = rename_file_name
             print(form.cleaned_data)
             models.UploadFileModel.objects.create(**form.cleaned_data)
+
+        view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
+        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp} for i in
+                     view_file]
+        return JsonResponse(view_file, safe=False)
+
     else:
         return Http404
 
 
-
-#認証
+# 認証
 def registration(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():

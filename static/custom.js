@@ -27,7 +27,12 @@ function PageLoad(evt) {
     dropFrame.addEventListener('drop', handleFileSelect, false);
 }
 
-window.onload = function () {
-    PageLoad();
-};
+$(function () {
 
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        PageLoad();
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+
+});

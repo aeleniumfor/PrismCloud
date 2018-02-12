@@ -15,27 +15,23 @@
             {{ form }}
             <input type="submit">
         </form>
-
-
-        <div class="ui cards" style="padding: 10px">
-            {% for i in view_file %}
-
-                <div class="card">
-                    <div class="content">
-                        <div class="header">{{ i.ori_file_name }}</div>
-                        <div class="meta">
-                            <i class="file text outline icon"></i>
-                        </div>
-                        <div class="description">{{ i.time_stamp }}</div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
         <div>
 
-            <div id="DropFrame" style="background-color:#b8deff;border:solid 1px #3470ff; width:360px; height:120px;">
-                ここにファイルをドロップします。
+            <div id="DropFrame">
+                <div class="ui cards" style="padding: 10px">
+                    {% for i in view_file %}
+
+                        <div class="card">
+                            <div class="content">
+                                <div class="header">{{ i.ori_file_name }}</div>
+                                <div class="meta">
+                                    <i class="file text outline icon"></i>
+                                </div>
+                                <div class="description">{{ i.time_stamp }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <div id="output"></div>
         </div>

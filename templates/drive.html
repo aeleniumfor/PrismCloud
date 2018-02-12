@@ -2,7 +2,9 @@
 {% load staticfiles %}
 
 {% block body %}
-    <link href="{% static "custom_input.css" %}" rel="stylesheet">
+    <link href="{% static "custom.css" %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static "custom.js" %}"></script>
+
     <div class="ui container">
 
         <h1 style="padding-top: 100px">Theming Examples</h1>
@@ -29,6 +31,15 @@
                 </div>
             {% endfor %}
         </div>
+
+        <div>
+
+            <div id="DropFrame" style="background-color:#b8deff;border:solid 1px #3470ff; width:360px; height:120px;">
+                ここにファイルをドロップします。
+            </div>
+            <div id="output"></div>
+        </div>
+
     </div>
 
 {% endblock %}

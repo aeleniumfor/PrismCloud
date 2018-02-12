@@ -15,11 +15,20 @@ from O_lib import maker
 def drive(request):
     # リクエストがポストでファイルが送信されているかどうか
     if request.method == 'POST' and request.FILES != {}:
-        form = forms.UploadFileForm(data = request.POST, files = request.FILES)
+        file = request.FILES["file"]
+
+        original_file_name = file.name  # 元のファイル名
+        rename_file_name = maker.make_uuid(file.name)
+
+        file.name = rename_file_name
+        form = forms.UploadFileForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
+            form.cleaned_data["user_id"] = request.user.id
+            form.cleaned_data["ori_file_name"] = original_file_name
+            form.cleaned_data["re_file_name"] = rename_file_name
             print(form.cleaned_data)
-            form.save()
+            models.UploadFileModel.objects.create(**form.cleaned_data)
 
         # file = request.FILES["file"]  # リクエストファイルを取得しておく
         # original_file_name = file.name  # get filename
@@ -40,7 +49,7 @@ def drive(request):
 
     else:  # POST通信以外はこっち
         form = forms.UploadFileForm()
-        view_file = models.UploadFileModel.objects.all()  # ファイル一覧をとってくる
+        view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
         view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp} for i in
                      view_file]
 
@@ -65,5 +74,5 @@ def registration(request):
 
 
 def test(request):
-    form = forms.UploadFileForm(request.POST or None)
+    print(request.user)
     return render(request, "front_test.html")

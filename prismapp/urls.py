@@ -11,7 +11,10 @@ login_tmp = {
 }
 
 urlpatterns = [
+
     url(r'^drive/$', views.drive, name='drive'),
+    url(r'^drive_file_upload/$', views.drive_file_upload, name='drive_file_upload'),
+
     url(r'^test/$', views.test, name='test'),
 
     url(r'^registration/$', views.registration, name="registration"),

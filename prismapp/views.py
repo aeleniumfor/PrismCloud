@@ -60,7 +60,30 @@ def drive(request):
         }
         return render(request, 'drive.html', d)  # 登録
 
+#ajaxでのファイル送信
+@login_required
+def drive_file_upload(request):
+    if request.method == 'POST' and request.FILES != {}:
+        file = request.FILES["file"]
 
+        original_file_name = file.name  # 元のファイル名
+        rename_file_name = maker.make_uuid(file.name)
+
+        file.name = rename_file_name
+        form = forms.UploadFileForm(data=request.POST, files=request.FILES)
+
+        if form.is_valid():
+            form.cleaned_data["user_id"] = request.user.id
+            form.cleaned_data["ori_file_name"] = original_file_name
+            form.cleaned_data["re_file_name"] = rename_file_name
+            print(form.cleaned_data)
+            models.UploadFileModel.objects.create(**form.cleaned_data)
+    else:
+        return Http404
+
+
+
+#認証
 def registration(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():

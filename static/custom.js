@@ -8,8 +8,8 @@ function handleFileSelect(evt) {
 
     var output = [];
 
-
     for (var i = 0; i < files.length; i++) {
+        console.log(files[i].name);
         document.getElementById('output').innerHTML += files[i].name + '(' + files[i].size + ') '
             + files[i].lastModifiedDate.toLocaleDateString() + files[i].lastModifiedDate.toLocaleTimeString() + ' - ' + files[i].type + '<br/>';
     }

@@ -42,9 +42,21 @@
 
 
     <div class="ui fixed menu">
+        {#        左側メニュー#}
         <div class="menu">
-            <div id="sidbar" class="item"><i class="icon large grey content"></i></div>
+            <div id="sidbar" class="item">
+                <i class="icon large grey content"></i>
+            </div>
         </div>
+
+        {#        右側のメニュー#}
+        <div class="right menu">
+            <a class="item" href="{% url "prism:logout" %}">
+                <i class="icon large sign out"></i>
+            </a>
+
+        </div>
+
     </div>
 
     <!--ここから本文-->

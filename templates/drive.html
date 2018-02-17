@@ -35,7 +35,64 @@
             </div>
             <div id="output"></div>
         </div>
-
     </div>
 
+    <script>
+
+        $(function () {
+
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                PageLoad();
+            } else {
+                alert('The File APIs are not fully supported in this browser.');
+            }
+        });
+
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var files = evt.dataTransfer.files;
+
+            var output = [];
+
+            for (var i = 0; i < files.length; i++) {
+                console.log(files[i]);
+                FileUpload(files[i], "{% url "prism:drive_file_upload" %}");
+            }
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        function PageLoad(evt) {
+            var dropFrame = document.getElementById('DropFrame');
+            dropFrame.addEventListener('dragover', handleDragOver, false);
+            dropFrame.addEventListener('drop', handleFileSelect, false);
+        }
+
+
+        function FileUpload(file, url) {
+            var formData = new FormData();
+
+            formData.append('file', file);
+            formData.append('csrfmiddlewaretoken', getCSRF());
+            console.log(formData);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+    </script>
 {% endblock %}

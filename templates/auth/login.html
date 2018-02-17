@@ -1,16 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.username }}
-    {{ form.password }}
-    <input type="submit">
-</form>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-</body>
-</html>
+{% block basebody %}
+    {#    <div class="ui raised very padded text container segment">#}
+    {#        <h2 class="ui center aligned icon header">#}
+    {#            <i class="circular users icon"></i>#}
+    {#            Sigin In#}
+    {#        </h2>#}
+
+    {#    </div>#}
+    <div class="ui middle aligned center aligned grid">
+        <div class="column" style="padding-top: 100px">
+            <h3 class="ui center aligned header">Text Container</h3>
+            <div class="ui text container">
+                <div class="ui segments">
+                    <div class="ui segment">
+                        <form action="" method="post" class="ui form">
+                            {% csrf_token %}
+                            <div class="field">
+                                <label>Username</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="field">
+                                <label>Password</label>
+                                {{ form.password }}
+                            </div>
+
+
+                            <div style="padding-bottom: 6%">
+                                <button type="submit" class="ui left floated basic blue button">
+                                    <i class="sign in icon"></i>
+                                    Sigin in
+                                </button>
+
+                                <a href="{% url 'prism:registration' %}" class="ui right floated violet basic button">
+                                    <i class="add user icon"></i>
+                                    Sigin up
+                                </a>
+
+                            </div>
+
+                            {% if next %}
+                                <input type="hidden" name="next" value={{ next }}>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

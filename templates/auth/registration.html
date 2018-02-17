@@ -1,17 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.username }}
-    {{ form.password1 }}
-    {{ form.password2 }}
-    <input type="submit">
-</form>
+{% extends "base.html" %}
+{% load staticfiles %}
 
-</body>
-</html>
+{% block basebody %}
+    {#    <form method="post" action="">#}
+    {#        {% csrf_token %}#}
+    {#        {{ form.username }}#}
+    {#        {{ form.password1 }}#}
+    {#        {{ form.password2 }}#}
+    {#        <input type="submit">#}
+    {#    </form>#}
+
+    <div class="ui raised very padded text container segment">
+        <form action="" method="post" class="ui form">
+            {% csrf_token %}
+            <div class="field">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
+            <div class="field">
+                <label>Password</label>
+                {{ form.password1 }}
+            </div>
+            <div class="field">
+                <label>Password</label>
+                {{ form.password2 }}
+            </div>
+
+            <div style="padding: 6%">
+                <button type="submit" class="ui left floated basic blue button">
+                    <i class="add user icon"></i>
+                    Sigin up
+                </button>
+
+                <a href="{% url 'prism:login' %}" class="ui right floated violet basic button">
+                    <i class="sign in icon"></i>
+                    Sigin in
+                </a>
+
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

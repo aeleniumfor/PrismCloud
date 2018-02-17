@@ -90,6 +90,11 @@ def drive_file_upload(request):
         return Http404
 
 
+######################################################################
+# 認証関連
+######################################################################
+
+
 # 認証
 def registration(request):
     form = UserCreationForm(request.POST or None)

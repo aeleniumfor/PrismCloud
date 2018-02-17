@@ -19,5 +19,5 @@ urlpatterns = [
 
     url(r'^registration/$', views.registration, name="registration"),
     url(r'^login/$', login, {'template_name': 'auth/login.html'}, name='login'),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^logout/$', logout, {'next_page': 'prism:login'}, name='logout'),
 ]

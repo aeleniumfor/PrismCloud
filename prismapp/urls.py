@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import url
+from django.urls import include, path
 
 from . import views
 
@@ -12,12 +12,12 @@ login_tmp = {
 
 urlpatterns = [
 
-    url(r'^drive/$', views.drive, name='drive'),
-    url(r'^drive_file_upload/$', views.drive_file_upload, name='drive_file_upload'),
+    path('drive/', views.drive, name='drive'),
+    path('drive_file_upload/', views.drive_file_upload, name='drive_file_upload'),
 
-    url(r'^test/$', views.test, name='test'),
+    path('test/', views.test, name='test'),
 
-    url(r'^registration/$', views.registration, name="registration"),
-    url(r'^login/$', login, {'template_name': 'auth/login.html'}, name='login'),
-    url(r'^logout/$', logout, {'next_page': 'prism:login'}, name='logout'),
+    path('registration/', views.registration, name="registration"),
+    path('login/', login, {'template_name': 'auth/login.html'}, name='login'),
+    path('logout/', logout, {'next_page': 'prism:login'}, name='logout'),
 ]

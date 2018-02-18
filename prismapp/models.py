@@ -10,7 +10,7 @@ def user_directory_path(instance, filename):
 
 
 class UploadFileModel(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,models.CASCADE)
     ori_file_name = models.CharField(max_length=pow(2, 8))  # 256
     re_file_name = models.CharField(max_length=pow(2, 8))  # 256
     file = models.FileField(upload_to=user_directory_path)

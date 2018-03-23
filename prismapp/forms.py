@@ -3,7 +3,9 @@ from . import models
 
 
 class MyForm(forms.Form):
-    text = forms.CharField(max_length=100)
+    text = forms.CharField(max_length=100,
+                           widget=forms.HiddenInput()
+                           )
 
 
 # class UploadFileForm(forms.ModelForm):

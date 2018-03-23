@@ -5,37 +5,45 @@
     <link href="{% static "custom.css" %}" rel="stylesheet">
     <script type="text/javascript" src="{% static "custom.js" %}"></script>
 
-    <div class="ui container">
+    <div class="ui fluid container">
+        <div class="ui grid">
 
-        <h1 style="padding-top: 100px">Theming Examples</h1>
-        <h2 class="ui dividing header">Files</h2>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.title }}
-            {{ form }}
-            <input type="submit">
-        </form>
-        <div>
+            <div class="ten wide column">
+                <h1 style="padding-top: 100px">Theming Examples</h1>
+                <h2 class="ui dividing header">Files</h2>
+                {#                <form method="POST" enctype="multipart/form-data">#}
+                {% csrf_token %}
+                {#                    {{ form.title }}#}
+                {#                    {{ form }}#}
+                {#                    <input type="submit" hidden>#}
+                {#                </form>#}
+                <div>
 
-            <div id="DropFrame">
-                <div class="ui cards" style="padding: 10px">
-                    {% for i in view_file %}
-
-                        <div class="card">
-                            <div class="content">
-                                <div class="header">{{ i.ori_file_name }}</div>
-                                <div class="meta">
-                                    <i class="file text outline icon"></i>
+                    <div id="DropFrame" style="height: 100%;background-color: #bb786a">
+                        <div class="ui five column doubling stackable grid container">
+                            {% for i in view_file %}
+                                <div class="column">
+                                    <img class="ui small centered image"
+                                         src="{% static "icons/svg/txt.svg" %}">
+                                    <p>{{ i.time_stamp }}</p>
+                                    <p>{{ i.ori_file_name }}</p>
                                 </div>
-                                <div class="description">{{ i.time_stamp }}</div>
-                            </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+
+                    </div>
+                    <div id="output"></div>
                 </div>
             </div>
-            <div id="output"></div>
+
+            <div class="six wide column">
+
+            </div>
+
         </div>
     </div>
+
+
 
     <script>
 
@@ -80,7 +88,7 @@
 
             formData.append('file', file);
             formData.append('csrfmiddlewaretoken', getCSRF());
-            console.log(formData);
+            //console.log(formData);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -89,7 +97,9 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i].ori_file_name)
+                    }
                 }
             });
         }

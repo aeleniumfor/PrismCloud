@@ -20,7 +20,7 @@
                 <div>
 
                     <div id="DropFrame" style="height: 100%;background-color: #bb786a">
-                        <div class="ui five column doubling stackable grid container">
+                        <div id="file_text" class="ui five column doubling stackable grid container">
                             {% for i in view_file %}
                                 <div class="column">
                                     <img class="ui small centered image"
@@ -61,7 +61,6 @@
             evt.preventDefault();
 
             var files = evt.dataTransfer.files;
-
             var output = [];
 
             for (var i = 0; i < files.length; i++) {
@@ -90,18 +89,27 @@
             formData.append('csrfmiddlewaretoken', getCSRF());
             //console.log(formData);
             $.ajax({
-                type: 'POST',
-                url: url,
-                data: formData,
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        console.log(data[i].ori_file_name)
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        var ori_file_name = data.slice(-1)[0].ori_file_name;
+                        var time_stamp = data.slice(-1)[0].time_stamp;
+                        var html = '<div class="column"><img class="ui small centered image src="{% static 'icons/svg/txt.svg' %}"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                        $('#file_text').append(html);
+                        //for (var i = 0; i < data.length; i++) {
+                        //   console.log(data[i].ori_file_name);
+                        //   $('#file_text').append('<li>追加されました</li>');
+                        // }
+
+
                     }
                 }
-            });
+            )
+            ;
         }
 
     </script>

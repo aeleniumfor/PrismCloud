@@ -98,7 +98,8 @@
                     success: function (data) {
                         var ori_file_name = data.slice(-1)[0].ori_file_name;
                         var time_stamp = data.slice(-1)[0].time_stamp;
-                        var html = '<div class="column"><img class="ui small centered image src="{% static 'icons/svg/txt.svg' %}"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                        {#var file_name = "{% static 'icons/svg/txt.svg' %}";#}
+                        var html = '<div class="column"><img class="ui small centered image" src="{% static 'icons/svg/txt.svg' %}"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
                         $('#file_text').append(html);
                         //for (var i = 0; i < data.length; i++) {
                         //   console.log(data[i].ori_file_name);
@@ -108,8 +109,7 @@
 
                     }
                 }
-            )
-            ;
+            );
         }
 
     </script>

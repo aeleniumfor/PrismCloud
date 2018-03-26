@@ -11,7 +11,7 @@
     {#    </form>#}
 
     <div class="ui raised very padded text container segment">
-        <form action="" method="post" class="ui form">
+        <form action="{% url 'prismapp:registration' %}" method="post" class="ui form">
             {% csrf_token %}
             <div class="field">
                 <label>Username</label>

@@ -62,12 +62,24 @@ def drive(request):
         return render(request, 'drive.html', d)  # 登録
 
 
+@login_required
+def drive_file_get(request):
+    if request.method == 'GET':
+        view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
+        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp,
+                      "extension": os.path.splitext(i.ori_file_name.__str__())[1]} for i in
+                     view_file]
+        print(view_file)
+        return JsonResponse(view_file, safe=False)
+    else:
+        return Http404
+
+
 # ajaxでのファイル送信
 @login_required
 def drive_file_upload(request):
     if request.method == 'POST' and request.FILES != {}:
         file = request.FILES["file"]
-
 
         original_file_name = file.name  # 元のファイル名
         rename_file_name = maker.make_uuid(file.name)
@@ -99,6 +111,7 @@ def drive_file_upload(request):
 # 認証
 def registration(request):
     form = UserCreationForm(request.POST or None)
+    print(form)
     if form.is_valid():
         form.save()
         return redirect('prism:login')

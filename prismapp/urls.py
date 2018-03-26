@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('drive/', views.drive, name='drive'),
     path('drive_file_upload/', views.drive_file_upload, name='drive_file_upload'),
+    path('drive_file_get/', views.drive_file_get, name='drive_file_get'),
 
     path('test/', views.test, name='test'),
 

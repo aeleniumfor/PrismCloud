@@ -8,7 +8,7 @@
     <div class="ui fluid container">
         <div class="ui grid">
 
-            <div class="ten wide column">
+            <div class="ten wide column" style="background-color: #bb786a;">
                 <h1 style="padding-top: 100px">Theming Examples</h1>
                 <h2 class="ui dividing header">Files</h2>
                 {#                <form method="POST" enctype="multipart/form-data">#}
@@ -17,23 +17,20 @@
                 {#                    {{ form }}#}
                 {#                    <input type="submit" hidden>#}
                 {#                </form>#}
-                <div>
-
-                    <div id="DropFrame" style="height: 100%;background-color: #bb786a">
-                        <div id="file_text" class="ui five column doubling stackable grid container">
-                            {% for i in view_file %}
-                                <div class="column">
-                                    <img class="ui small centered image"
-                                         src="{% static "icons/svg/txt.svg" %}">
-                                    <p>{{ i.time_stamp }}</p>
-                                    <p>{{ i.ori_file_name }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
-
+                <div id="DropFrame" style="height: 100vh ;">
+                    <div id="file_text" class="ui five column doubling stackable grid container">
+                        {#                            {% for i in view_file %}#}
+                        {#                                <div class="column">#}
+                        {#                                    <img class="ui small centered image"#}
+                        {#                                         src="{% static "icons/svg/txt.svg" %}">#}
+                        {#                                    <p>{{ i.time_stamp }}</p>#}
+                        {#                                    <p>{{ i.ori_file_name }}</p>#}
+                        {#                                </div>#}
+                        {#                            {% endfor %}#}
                     </div>
-                    <div id="output"></div>
+
                 </div>
+                <div id="output"></div>
             </div>
 
             <div class="six wide column">
@@ -48,7 +45,7 @@
     <script>
 
         $(function () {
-
+            FileGet("{% url 'prismapp:drive_file_get' %}");
             if (window.File && window.FileReader && window.FileList && window.Blob) {
                 PageLoad();
             } else {
@@ -81,13 +78,47 @@
             dropFrame.addEventListener('drop', handleFileSelect, false);
         }
 
+        function extension_to_file(extension) {
+            //拡張子からファイル名を命名する
+            var icon;
+            switch (extension) {
+                case ".iso":
+                    icon = "iso.svg";
+                    break;
+                case ".png":
+                    icon = "png.svg";
+                    break;
+                case ".jpg":
+                    icon = "jpg.svg";
+                    break;
+                case ".txt":
+                    icon = "txt.svg";
+                    break;
+                case ".json":
+                    icon = "json-file.svg";
+                    break;
+                case ".html":
+                    icon = "html.svg";
+                    break;
+                case ".xml":
+                    icon = "xml.svg";
+                    break;
+
+                case ".mp3":
+                    icon = "m03.svg";
+                    break;
+                default:
+                    icon = "file.svg";
+                    break
+            }
+            return icon;
+        }
 
         function FileUpload(file, url) {
             var formData = new FormData();
-
             formData.append('file', file);
-            formData.append('csrfmiddlewaretoken', getCSRF());
-            //console.log(formData);
+            formData.append('csrfmiddlewaretoken', getCSRF());//トークンを取得
+
             $.ajax({
                     type: 'POST',
                     url: url,
@@ -98,18 +129,40 @@
                     success: function (data) {
                         var ori_file_name = data.slice(-1)[0].ori_file_name;
                         var time_stamp = data.slice(-1)[0].time_stamp;
-                        {#var file_name = "{% static 'icons/svg/txt.svg' %}";#}
-                        var html = '<div class="column"><img class="ui small centered image" src="{% static 'icons/svg/txt.svg' %}"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                        var extension = data.slice(-1)[0].extension;
+                        var media_file = "{% static 'icons/svg/' %}";
+                        var icon_file = media_file + "/" + extension_to_file(extension);
+                        var html = '<div class="column"><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
                         $('#file_text').append(html);
                         //for (var i = 0; i < data.length; i++) {
                         //   console.log(data[i].ori_file_name);
                         //   $('#file_text').append('<li>追加されました</li>');
                         // }
 
-
                     }
                 }
             );
+        }
+
+        function FileGet(url) {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var ori_file_name = data.slice(i)[0].ori_file_name;
+                        var time_stamp = data.slice(i)[0].time_stamp;
+                        var extension = data.slice(i)[0].extension;
+                        var media_file = "{% static 'icons/svg/' %}";
+                        var icon_file = media_file + "/" + extension_to_file(extension);
+                        var html = '<div class="column"><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                        $('#file_text').append(html);
+                    }
+                }
+            });
         }
 
     </script>

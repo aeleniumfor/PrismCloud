@@ -111,7 +111,6 @@ def drive_file_upload(request):
 # 認証
 def registration(request):
     form = UserCreationForm(request.POST or None)
-    print(form)
     if form.is_valid():
         form.save()
         return redirect('prism:login')

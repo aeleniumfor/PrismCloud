@@ -69,7 +69,7 @@ def drive_file_get(request):
         view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp,
                       "extension": os.path.splitext(i.ori_file_name.__str__())[1]} for i in
                      view_file]
-        print(view_file)
+
         return JsonResponse(view_file, safe=False)
     else:
         return Http404
@@ -79,24 +79,31 @@ def drive_file_get(request):
 @login_required
 def drive_file_upload(request):
     if request.method == 'POST' and request.FILES != {}:
-        file = request.FILES["file"]
+        file_list = request.FILES.getlist("files[]")
+        for file in file_list:
+            original_file_name = file.name  # 元のファイル名
+            rename_file_name = maker.make_uuid(file.name)
+            file.name = rename_file_name
 
-        original_file_name = file.name  # 元のファイル名
-        rename_file_name = maker.make_uuid(file.name)
+            file_model = models.UploadFileModel()
+            file_model.user = request.user
+            file_model.ori_file_name = original_file_name
+            file_model.re_file_name = rename_file_name
+            file_model.file = file
+            file_model.save()
 
-        file.name = rename_file_name
-        form = forms.UploadFileForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.cleaned_data["user_id"] = request.user.id
-            form.cleaned_data["ori_file_name"] = original_file_name
-            form.cleaned_data["re_file_name"] = rename_file_name
-            models.UploadFileModel.objects.create(**form.cleaned_data)
+            # form = forms.UploadFileForm(data=request.POST, files=file)
+            # if form.is_valid():
+            #     print(True)
+            #     form.cleaned_data["user_id"] = request.user.id
+            #     form.cleaned_data["ori_file_name"] = original_file_name
+            #     form.cleaned_data["re_file_name"] = rename_file_name
+            #     models.UploadFileModel.objects.create(**form.cleaned_data)
 
         view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
         view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp,
                       "extension": os.path.splitext(i.ori_file_name.__str__())[1]} for i in
                      view_file]
-        print(view_file)
         return JsonResponse(view_file, safe=False)
 
     else:

@@ -7,9 +7,8 @@
 
     <div class="ui fluid container">
         <div class="ui grid">
-
-            <div class="ten wide column" style="background-color: #bb786a;">
-                <h1 style="padding-top: 100px">Theming Examples</h1>
+            <div class="sixteen wide column" style="background-color: #bb786a;">
+                <h1>Theming Examples</h1>
                 <h2 class="ui dividing header">Files</h2>
                 {#                <form method="POST" enctype="multipart/form-data">#}
                 {% csrf_token %}
@@ -17,7 +16,7 @@
                 {#                    {{ form }}#}
                 {#                    <input type="submit" hidden>#}
                 {#                </form>#}
-                <div id="DropFrame" style="height: 100vh ;">
+                <div id="DropFrame" style="overflow:auto;">
                     <div id="file_text" class="ui five column doubling stackable grid container">
                         {#                            {% for i in view_file %}#}
                         {#                                <div class="column">#}
@@ -59,11 +58,7 @@
 
             var files = evt.dataTransfer.files;
             var output = [];
-
-            for (var i = 0; i < files.length; i++) {
-                console.log(files[i]);
-                FileUpload(files[i], "{% url "prism:drive_file_upload" %}");
-            }
+            FileUpload(files, "{% url "prism:drive_file_upload" %}");
         }
 
         function handleDragOver(evt) {
@@ -116,9 +111,11 @@
 
         function FileUpload(file, url) {
             var formData = new FormData();
-            formData.append('file', file);
-            formData.append('csrfmiddlewaretoken', getCSRF());//トークンを取得
 
+            for (var i = 0; i < file.length; i++) {
+                formData.append('files[]', file[i]);
+            }
+            formData.append('csrfmiddlewaretoken', getCSRF());//トークンを取得
             $.ajax({
                     type: 'POST',
                     url: url,
@@ -127,13 +124,18 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        var ori_file_name = data.slice(-1)[0].ori_file_name;
-                        var time_stamp = data.slice(-1)[0].time_stamp;
-                        var extension = data.slice(-1)[0].extension;
-                        var media_file = "{% static 'icons/svg/' %}";
-                        var icon_file = media_file + "/" + extension_to_file(extension);
-                        var html = '<div class="column"><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
-                        $('#file_text').append(html);
+                        var list = data.slice(-file.length);
+                        for (i = 0; i < file.length; i++) {
+                            console.log(list[i]);
+                            var ori_file_name = list[i].ori_file_name;
+                            var time_stamp = list[i].time_stamp;
+                            var extension = list[i].extension;
+                            var media_file = "{% static 'icons/svg/' %}";
+                            var icon_file = media_file + "/" + extension_to_file(extension);
+                            var html = '<div class="column"><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                            $('#file_text').append(html);
+                        }
+
                         //for (var i = 0; i < data.length; i++) {
                         //   console.log(data[i].ori_file_name);
                         //   $('#file_text').append('<li>追加されました</li>');

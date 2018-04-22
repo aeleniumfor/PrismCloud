@@ -8,6 +8,7 @@ from . import models
 from django.contrib.auth.decorators import login_required
 
 import os, sys
+import io
 from O_lib import maker
 
 
@@ -62,11 +63,15 @@ def drive(request):
         return render(request, 'drive.html', d)  # 登録
 
 
+# ファイル一覧を取得
 @login_required
 def drive_file_get(request):
     if request.method == 'GET':
         view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
-        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp,
+        view_file = [{'id': i.id,
+                      'ori_file_name': i.ori_file_name.__str__(),
+                      "time_stamp": i.time_stamp,
+                      "re_file_name": i.re_file_name.__str__(),
                       "extension": os.path.splitext(i.ori_file_name.__str__())[1]} for i in
                      view_file]
 
@@ -101,13 +106,24 @@ def drive_file_upload(request):
             #     models.UploadFileModel.objects.create(**form.cleaned_data)
 
         view_file = models.UploadFileModel.objects.filter(user_id=request.user.id)  # ファイル一覧をとってくる
-        view_file = [{'id': i.id, 'ori_file_name': i.ori_file_name.__str__(), "time_stamp": i.time_stamp,
-                      "extension": os.path.splitext(i.ori_file_name.__str__())[1]} for i in
-                     view_file]
+        view_file = [{'id': i.id,
+                      'ori_file_name': i.ori_file_name.__str__(),
+                      "time_stamp": i.time_stamp,
+                      "re_file_name": i.re_file_name.__str__(),
+                      "extension": os.path.splitext(i.ori_file_name.__str__())[1]
+                      }
+                     for i in view_file]
         return JsonResponse(view_file, safe=False)
 
     else:
         return Http404
+
+
+def drive_file_download(request, re_file_name):
+    output = io.StringIO()
+    view_file = models.UploadFileModel.objects.filter(user_id=request.user.id, re_file_name=re_file_name)
+    print(view_file)
+    return HttpResponse(view_file)
 
 
 ######################################################################

@@ -130,7 +130,7 @@
                             var re_file_name = list[i].re_file_name;
                             var media_file = "{% static 'icons/svg/' %}";
                             var icon_file = media_file + "/" + extension_to_file(extension);
-                            var html = '<div class="column" onclick=filename("' + re_file_name + '")><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                            var html = '<div class="column" onclick=filename("' + re_file_name + '")><img class="ui small centered image" src="' + icon_file + '"><p class = "ui message">' + ori_file_name + '</p></div>';
                             $('#file_text').append(html);
                         }
 
@@ -160,7 +160,7 @@
                         var re_file_name = data.slice(i)[0].re_file_name;
                         var media_file = "{% static 'icons/svg/' %}";
                         var icon_file = media_file + "/" + extension_to_file(extension);
-                        var html = '<div class="column" onclick=filename("' + re_file_name + '")><img class="ui small centered image" src="' + icon_file + '"><p>' + time_stamp + '</p><p>' + ori_file_name + '</p></div>';
+                        var html = '<div class="column" onclick=filename("' + re_file_name + '")><img class="ui small centered image" src="' + icon_file + '"><p class="ui message">' + ori_file_name + '</p></div>';
                         $('#file_text').append(html);
                     }
                 }

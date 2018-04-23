@@ -7,7 +7,7 @@ from . import models
 
 from django.contrib.auth.decorators import login_required
 
-import os, sys
+import os, sys, mimetypes
 import io
 from O_lib import maker
 
@@ -120,10 +120,20 @@ def drive_file_upload(request):
 
 
 def drive_file_download(request, re_file_name):
-    output = io.StringIO()
     view_file = models.UploadFileModel.objects.filter(user_id=request.user.id, re_file_name=re_file_name)
-    print(view_file)
-    return HttpResponse(view_file)
+
+    view_file = [{"file": i.file.__str__(),
+                  "ori_file_name": i.ori_file_name.__str__()
+                  } for i in view_file][0]
+    file_path = os.path.join(settings.MEDIA_ROOT, view_file["file"])
+    print(file_path)
+    # return HttpResponse(view_file)
+    content = open(file_path, 'rb')
+    mime = mimetypes.guess_type(file_path)
+    response = HttpResponse(content, content_type=mime[0])
+
+    response['Content-Disposition'] = 'attachment; filename="' + view_file["ori_file_name"] + '"'
+    return response
 
 
 ######################################################################

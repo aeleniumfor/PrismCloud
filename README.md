@@ -4,8 +4,7 @@ PrismCloud
 Overview
 
 ## Description
-
-## Demo
+Webstreage
 
 ## Requirement
 - python3+
@@ -13,11 +12,12 @@ Overview
 - semantic-ui
 - jquery
 
-## Usage
-
 ## Install
+```
+pip install django
+pip install pymysql
 
-## Contribution
-
-## Licence
+git clone https://github.com/aeleniumfor/PrismCloud.git
+# into the static folder 
+```
 
